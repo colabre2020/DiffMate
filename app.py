@@ -33,10 +33,22 @@ def highlight_differences(text1, text2):
     return highlighted_text1, highlighted_text2
 
 def main():
-    st.title("Satya's DiffMate")
+    st.title("Satya's DiffMate App")
     
-    file1 = st.file_uploader("Upload First File", type=["txt", "docx", "xlsx"])
-    file2 = st.file_uploader("Upload Second File", type=["txt", "docx", "xlsx"])
+    st.markdown("""
+    **Instructions:**
+    1. Upload two files of the same type (TXT, DOCX, or XLSX) for comparison.
+    2. The app will extract and display the content side by side.
+    3. Differences will be highlighted:
+       - **Red Highlight**: Text removed from File 1.
+       - **Green Highlight**: Text added in File 2.
+    4. Scroll through both panels to review changes easily.
+    """)
+    
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        file1 = st.file_uploader("Upload First File", type=["txt", "docx", "xlsx"])
+        file2 = st.file_uploader("Upload Second File", type=["txt", "docx", "xlsx"])
     
     if file1 and file2:
         ext1, ext2 = file1.name.split(".")[-1], file2.name.split(".")[-1]
@@ -57,13 +69,14 @@ def main():
         
         highlighted_text1, highlighted_text2 = highlight_differences(text1, text2)
         
-        col1, col2 = st.columns(2)
-        with col1:
-            st.subheader("File 1 Contents")
-            st.markdown(f'<div style="white-space: pre-wrap">{highlighted_text1}</div>', unsafe_allow_html=True)
         with col2:
-            st.subheader("File 2 Contents")
-            st.markdown(f'<div style="white-space: pre-wrap">{highlighted_text2}</div>', unsafe_allow_html=True)
+            col_left, col_right = st.columns(2)
+            with col_left:
+                st.subheader("File 1 Contents")
+                st.markdown(f'<div style="white-space: pre-wrap; height: 600px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">{highlighted_text1}</div>', unsafe_allow_html=True)
+            with col_right:
+                st.subheader("File 2 Contents")
+                st.markdown(f'<div style="white-space: pre-wrap; height: 600px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">{highlighted_text2}</div>', unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
