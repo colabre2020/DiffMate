@@ -33,7 +33,7 @@ def highlight_differences(text1, text2):
     return highlighted_text1, highlighted_text2
 
 def main():
-    st.title("Satya's File Comparison App")
+    st.title("Satya's DiffMate")
     
     file1 = st.file_uploader("Upload First File", type=["txt", "docx", "xlsx"])
     file2 = st.file_uploader("Upload Second File", type=["txt", "docx", "xlsx"])
